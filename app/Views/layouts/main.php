@@ -185,6 +185,7 @@ $(document).ready(function(){
       "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
       "iDisplayLength": 100
    }); 
+});
             var password=document.getElementById("password");
 
 function genPassword() {
@@ -222,7 +223,7 @@ function copyPassword() {
          });
       }
    });
-});
+
       </script>
      
    </body>

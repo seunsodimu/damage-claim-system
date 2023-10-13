@@ -8,7 +8,7 @@
                      <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
                         <div class="iq-card-header d-flex justify-content-between">
                            <div class="iq-header-title">
-                              <h4 class="card-title">Add new user</h4>
+                              <h4 class="card-title"><?= ($action=="edit") ? "Edit user" : "Add new User" ?></h4>
                            </div>
                         </div>
                     
@@ -20,7 +20,59 @@
     </ul>
 <?php endif; ?>
 <div class="iq-card-body">
-<form method="POST" action="<?= base_url('register') ?>">
+<?php if ($action == 'edit') : ?>
+   <form method="POST" action="<?= base_url('admin/users/update/'.$user['id']) ?>">
+                            <input type="hidden" name="user_id" value="<?= $user['id'] ?>">    
+                                   
+                                    <div class="row">
+                                       <div class="form-group col-md-6">
+                                          <label for="fname">First Name:</label>
+                                          <input type="text" class="form-control" id="fname" name="FirstName" value="<?= $user['first_name'] ?>" placeholder="First Name">
+                                       </div>
+                                       <div class="form-group col-md-6">
+                                          <label for="lname">Last Name:</label>
+                                          <input type="text" class="form-control" id="lname" name="LastName" value="<?= $user['last_name'] ?>" placeholder="Last Name">
+                                       </div>
+                                       
+                                       
+                                    </div>
+                                    <hr>
+                                   
+                                    <div class="row">
+                                       <div class="form-group col-md-6">
+                                          <label for="Role">Role:</label>
+                                          <select class="form-control" id="Role" name="Role">
+                                             <option value="2" <?= ($user['role_id']==2) ?"Selected":""?>>Standard</option>
+                                             <option value="1" <?= ($user['role_id']==1) ?"Selected":""?>>Admin</option>
+                                          </select>
+                                       </div>
+                                       <div class="form-group col-md-6">
+                                          <label for="uname">User Name:</label>
+                                          <input type="text" class="form-control" id="uname" value="<?= $user['username'] ?>" name="Username" placeholder="User Name">
+                                       </div>
+                                    </div>
+                                    <div class="row">
+                                       <div class="form-group col-md-6">
+                                          <label for="pass">Password:</label>
+                                          <input type="password" class="form-control" name="Password" id="pass" placeholder="Password" autocomplete="off">
+                                       </div>
+                                       <div class="form-group col-md-6">
+                                          <label for="rpass">Repeat Password:</label>
+                                          <input type="password" class="form-control" id="rpass" name="Password_confirm" placeholder="Repeat Password" autocomplete="off">
+                                       </div>
+                                    </div>
+                                    <div>
+                                    <div id="button" class="btn1 btn btn-primary" onclick="genPassword()">Generate</div>
+                                    <a  id="button" class="btn2 btn btn-danger" onclick="copyPassword()">Copy</a>
+                                    </div>
+                                   <div class="row mt-3">
+                                   <input type="submit" class="btn btn-info" value="Update user">
+                                   </div>
+                                 
+                                          
+                                          </form>
+                                          <?php elseif ($action == 'list') : ?>
+                                             <form method="POST" action="<?= base_url('register') ?>">
                                     
                                    
                               <div class="row">
@@ -70,6 +122,7 @@
                            
                                     
                                     </form>
+                                             <?php endif; ?>
 </div>
 
 
@@ -113,7 +166,7 @@
                                           <td><?= $user['role_id'] == 1 ? 'Admin' : 'Standard' ?></td>
                                           <td>
                                        <div class="flex align-items-center list-user-action">
-                                          <a class="iq-bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit" href="#"><i class="ri-pencil-line"></i></a>
+                                          <a class="iq-bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit" href="<?= base_url('admin/users/edit/'.$user['id']) ?>"><i class="ri-pencil-line"></i></a>
                                           <a class="iq-bg-primary rmv-user" data-usid="<?= $user['id'] ?>" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="javascript:void(0)"><i class="ri-delete-bin-line"></i></a>
                                        </div>
                                     </td>
