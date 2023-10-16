@@ -22,4 +22,5 @@ $routes->get('admin/users', 'AdminController::users', ['filter' => 'auth']);
 $routes->get('admin/users/edit/(:num)', 'AdminController::editUser/$1', ['filter' => 'auth']);
 $routes->post('admin/users/update/(:num)', 'AdminController::updateUser/$1', ['filter' => 'auth']);
 $routes->post('admin/users/delete', 'AdminController::deleteUser', ['filter' => 'auth']);
-$routes->get('uploads/(:any)', 'ClaimController::display/$1');
+//$routes->get('uploads/(:any)', 'ClaimController::display/$1');
+$routes->get('/uploads/(:any)', 'FilesController::displayFile/$1');

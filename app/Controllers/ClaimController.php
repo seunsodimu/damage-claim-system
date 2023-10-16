@@ -2,6 +2,7 @@
 
 use App\Models\ClaimModel;
 use App\ThirdParty\EmailService;
+use Config\Services\Email;
 
 class ClaimController extends BaseController
 {
@@ -53,28 +54,28 @@ class ClaimController extends BaseController
         ]);
         //send details in email
         $emailService = new EmailService();
-        $body = "<html><body><h1>New Claim</h1><p>Claim details</p>
-        <p>Claim Status: " . $this->request->getVar('ClaimStatus') . "</p>
-        <p>Issue Status: " . $this->request->getVar('IssueStatus') . "</p>
-        <p>Damage Cause: " . $this->request->getVar('DamageCause') . "</p>
-        <p>Part Number: " . $this->request->getVar('PartNumber') . "</p>
-        <p>Shipment Date: " . $this->request->getVar('ShipmentDate') . "</p>
-        <p>Loaded By: " . $this->request->getVar('LoadedBy') . "</p>
-        <p>Layers Lost: " . $this->request->getVar('LayersLost') . "</p>
-        <p>Diameter: " . $this->request->getVar('Diameter') . "</p>
-        <p>Length: " . $this->request->getVar('Length') . "</p>
-        <p>Width: " . $this->request->getVar('Width') . "</p>
-        <p>Basis Weight: " . $this->request->getVar('BasisWeight') . "</p>
-        <p>CSF: " . $this->request->getVar('CSF') . "</p>
-        <p>Notes: " . $this->request->getVar('Notes') . "</p>
-        <p>Summary: " . $this->request->getVar('Summary') . "</p>
-        <p>Created by: " . session()->get('userData')['first_name'] ." ".session()->get('userData')['last_name'] . "</p>
+        $body = "<html><body><h1>New Claim</h1><p><strong>Claim details</strong></p>
+        <p><strong>Claim Status: </strong>" . $this->request->getVar('ClaimStatus') . "</p>
+        <p><strong>Issue Status: </strong>" . $this->request->getVar('IssueStatus') . "</p>
+        <p><strong>Damage Cause: </strong>" . $this->request->getVar('DamageCause') . "</p>
+        <p><strong>Part Number: </strong>" . $this->request->getVar('PartNumber') . "</p>
+        <p><strong>Shipment Date: </strong>" . $this->request->getVar('ShipmentDate') . "</p>
+        <p><strong>Loaded By: </strong>" . $this->request->getVar('LoadedBy') . "</p>
+        <p><strong>Layers Lost: </strong>" . $this->request->getVar('LayersLost') . "</p>
+        <p><strong>Diameter: </strong>" . $this->request->getVar('Diameter') . "</p>
+        <p><strong>Length: </strong>" . $this->request->getVar('Length') . "</p>
+        <p><strong>Width: </strong>" . $this->request->getVar('Width') . "</p>
+        <p><strong>Basis Weight: </strong>" . $this->request->getVar('BasisWeight') . "</p>
+        <p><strong>CSF: </strong>" . $this->request->getVar('CSF') . "</p>
+        <p><strong>Notes: </strong>" . $this->request->getVar('Notes') . "</p>
+        <p><strong>Summary: </strong>" . $this->request->getVar('Summary') . "</p>
+        <p><strong>Created by: " . session()->get('userData')['first_name'] ." ".session()->get('userData')['last_name'] . "</p>
         </body></html>";
         $subject = "New Claim";
         $from = array("email" =>"reports@dawson-reports.com", "name" => "Dawson Reports");
         $to = array("email" => "seun.sodimu@gmail.com", "name" => "Seun");
-        $emailService->sendEmail($from, $to, $subject, $body);
-
+       // $emailService->sendEmail($from, $to, $subject, $body);
+        $this->sendMailSMTP("seun.sodimu@gmail.com", $subject, $body, "");
         return redirect()->to(base_url('claims'))->with('success', 'Claim created successfully with '.$newName);
     }
 
@@ -149,5 +150,31 @@ class ClaimController extends BaseController
         // Set headers and output the file
         return $this->response->setHeader('Content-Type', $mimeType)
                               ->setBody(file_get_contents($filePath));
+    }
+        //$message = 'This is the first email';
+
+    function sendMailSMTP($to, $subject, $message, $cc) { 
+        //$to = 'seun.sodimu@gmail.com';
+        //$subject = 'Checking Mail';
+        //$message = 'This is the first email';
+        
+        $email = \Config\Services::email();
+        $email->setTo($to);
+        $email->setFrom('report@dawson-reports.com', 'Dawson Reports');
+        if($cc!=""){
+        $email->setCC($cc);
+        }
+        $email->setSubject($subject);
+        $email->setMessage($message);
+        if ($email->send()) 
+		{
+		    
+            echo 'Email successfully sent to '.$to;
+        } 
+		else 
+		{
+            $data = $email->printDebugger(['headers']);
+            print_r($data);
+        }
     }
 }
