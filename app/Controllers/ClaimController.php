@@ -20,7 +20,7 @@ class ClaimController extends BaseController
         $file = $this->request->getFile('claim_file');
         if ($file && $file->isValid() && !$file->hasMoved()) {
             $newName = $file->getRandomName();
-            $path = "../writeable/uploads/";
+            $path = "../writable/uploads/";
             $file->move($path, $newName);  // Adjust the path as needed
 
             // Optionally, store the file name in the database with the claim
@@ -101,7 +101,7 @@ class ClaimController extends BaseController
         $file = $this->request->getFile('claim_file');
         if ($file && $file->isValid() && !$file->hasMoved()) {
             $newName = $file->getRandomName();
-            $path = "../writeable/uploads/";
+            $path = "../writable/uploads/";
             $file->move($path, $newName);  // Adjust the path as needed
 
             // Optionally, store the file name in the database with the claim

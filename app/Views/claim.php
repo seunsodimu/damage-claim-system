@@ -114,7 +114,7 @@
                                  </div>
                                  <?php if($claim['file_path'] != ""): ?>
                                  <div class="col">
-                                    <a href="<?= base_url('uploads/'.$claim['file_path']) ?>" target="_blank">View file</a>
+                                    <a href="<?= base_url('writable/uploads/'.$claim['file_path']) ?>" target="_blank">View file</a>
                                  </div>
                                     <?php endif; ?>
                               </div>
