@@ -91,11 +91,13 @@
                                  </select>
                                  </div>
                                  <div class="col">
+                                 <?php if(session()->get('userData')['role_id'] == 1): ?>
                                  <select class="form-control" name="ClaimStatus" id="ClaimStatus">
                                     <option selected="" disabled="">Claim Status</option>
                                     <option>Accepted</option>
                                     <option>Rejected</option>
                                  </select>
+                                 <?php endif; ?>
                                  </div>
                               </div>
                               <div class="form-row mt-3">

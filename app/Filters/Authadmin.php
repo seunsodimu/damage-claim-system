@@ -10,12 +10,9 @@ class Authadmin implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        if(session()->get('isa') < 1)
+        if(session()->get('userData')['role_id'] != 1)
 	{
-	//var_dump('111000'); exit;
-		session()->setFlashdata('responseStatus', 'You do not have access to this resource');
-		$prev = str_replace(base_url().'/index.php/', '', current_url());
-		return redirect()->to('/?prev='.$prev);
+        return redirect()->to(base_url('dashboard'))->with('error', 'You do not have privileges for this action.');
 	}	
     }
 

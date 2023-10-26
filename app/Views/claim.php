@@ -36,11 +36,13 @@
                                  </select>
                                  </div>
                                  <div class="col">
+                                    <?php if(session()->get('userData')['role_id'] == 1): ?>
                                     <label for="ClaimStatus">Claim Status</label>
                                  <select class="form-control" name="ClaimStatus" id="ClaimStatus">
                                     <option <?= ($claim['claim_status']=="Accepted") ? " Selected": "" ?>>Accepted</option>
                                     <option <?= ($claim['claim_status']=="Rejected") ? " Selected": "" ?>>Rejected</option>
                                  </select>
+                                 <?php endif; ?>
                                  </div>
                               </div>
                               <div class="form-row mt-3">
@@ -135,7 +137,7 @@
                               <div class="modal-dialog" role="document">
                                  <div class="modal-content">
                                     <div class="modal-header">
-                                       <h5 class="modal-title" id="exampleModalLabel">New Claim</h5>
+                                       <h5 class="modal-title" id="exampleModalLabel">New Claim <?= session()->get('userData')['role_id']; ?></h5>
                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                        <span aria-hidden="true">&times;</span>
                                        </button>
@@ -151,11 +153,13 @@
                                  </select>
                                  </div>
                                  <div class="col">
+                                 <?php if(session()->get('userData')['role_id'] == 1): ?>
                                  <select class="form-control" name="ClaimStatus" id="ClaimStatus">
                                     <option selected="" disabled="">Claim Status</option>
                                     <option>Accepted</option>
                                     <option>Rejected</option>
                                  </select>
+                                 <?php endif; ?>
                                  </div>
                               </div>
                               <div class="form-row mt-3">

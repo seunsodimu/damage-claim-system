@@ -10,7 +10,7 @@ class ClaimController extends BaseController
     {
         // List all claims
         $claims = new ClaimModel();
-        $data['claims'] = $claims->getClaims();
+        $data['claims'] = $claims->getClaims(session()->get('userData')['role_id'], session()->get('userData')['id']);
         $data['title'] = 'Claims';
         return view('claims', $data);
     }
@@ -86,9 +86,16 @@ class ClaimController extends BaseController
 
     public function edit($id)
     {
-        // Display claim edit form
         $claimModel = new ClaimModel();
-        $data['claim'] = $claimModel->getClaim($id);
+        $claim = $claimModel->getClaim($id);
+        // if user is not admin, check if claim belongs to user
+        if(session()->get('userData')['role_id']!=1){
+            if($claim['user_id']!=session()->get('userData')['id']){
+                return redirect()->to(base_url('claims'))->with('error', 'You are not authorized to edit this claim');
+            }
+        }
+        $claim['created_by'] = ($claim['created_by']!=null)?$claim['created_by']:"Deactivated User";
+        $data['claim'] = $claim;   
         $data['title'] = 'Edit Claim';
         return view('claim', $data);
     }

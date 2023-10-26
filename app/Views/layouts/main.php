@@ -18,6 +18,11 @@
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
       <!-- DataTables CSS -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
+<style>
+   .red{
+      color:red;
+   }
+   </style>
    </head>
    <body>
       <!-- Wrapper Start -->
@@ -51,11 +56,15 @@
                         <a href="<?= base_url('dashboard') ?>" class="iq-waves-effect"><i class="ri-home-4-line"></i><span>Dashboard </span></a>
                      </li>
                      <li>
+                        <a href="<?= base_url('my-profile') ?>" class="iq-waves-effect"><i class="ri-user-line"></i><span>My Profile </span></a>
+                     <li>
                         <a href="<?= base_url('claims') ?>" class="iq-waves-effect"><i class="ri-article-line"></i><span>Claims </span></a>
                      </li>
+                     <?php if(session()->get('userData')['role_id'] == 1): ?>
                      <li>
                         <a href="<?= base_url('admin/users') ?>" class="iq-waves-effect"><i class="ri-user-star-line"></i><span>Users </span></a>
                      </li>
+                     <?php endif; ?>
                      <li>
                         <a href="<?= base_url('logout') ?>" class="iq-waves-effect"><i class="ri-logout-box-fill"></i><span>Logout </span></a>
                      </li>
